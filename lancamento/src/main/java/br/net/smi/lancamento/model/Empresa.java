@@ -1,43 +1,67 @@
 package br.net.smi.lancamento.model;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
-import lombok.Getter;
-import lombok.Setter;
+import org.hibernate.validator.constraints.br.CNPJ;
 
-@Getter @Setter
 @Entity
-public class Empresa implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
+public class Empresa {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotNull
-	@NotBlank
-	private String nome;
-	
 	@Column(length = 14)
-	@NotNull
-	@NotBlank
+	@CNPJ
+	@NotEmpty
 	private String cnpj;
+	@NotEmpty
+	private String nome;
 	private String nomeResponsavel;
 	private String contato;
-	
-	@OneToMany
-	private List<Lancamento> lancamentos;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getNomeResponsavel() {
+		return nomeResponsavel;
+	}
+
+	public void setNomeResponsavel(String nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
+	}
+
+	public String getContato() {
+		return contato;
+	}
+
+	public void setContato(String contato) {
+		this.contato = contato;
+	}
 }

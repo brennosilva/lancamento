@@ -2,6 +2,8 @@ package br.net.smi.lancamento.resource;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,37 +21,32 @@ import br.net.smi.lancamento.service.EmpresaService;
 
 @RestController
 public class EmpresaResource {
-	
 	@Autowired
 	private EmpresaService empresaService;
-	
-	@PostMapping("/empresa")
-	public ResponseEntity<Empresa> cadastrar(@RequestBody Empresa empresa){
-		return new ResponseEntity<>(empresaService.novo(empresa), HttpStatus.OK);
+
+	@GetMapping("/empresa/{id}")
+	public ResponseEntity<Empresa> buscarPeloId(@PathVariable("id") Long id) {
+		return new ResponseEntity<Empresa>(empresaService.buscarPorId(id), HttpStatus.OK);
 	}
-	
+
+	@PostMapping("/empresa")
+	public ResponseEntity<Empresa> cadastrar(@RequestBody @Valid Empresa empresa) {
+		return new ResponseEntity<>(empresaService.cadastrar(empresa), HttpStatus.OK);
+	}
+
 	@PutMapping("/empresa")
-	public ResponseEntity<Empresa> atualizar(@RequestBody Empresa empresa){
+	public ResponseEntity<Empresa> atualizar(@RequestBody @Valid Empresa empresa) {
 		return new ResponseEntity<>(empresaService.atualizar(empresa), HttpStatus.OK);
 	}
-		
-	
+
 	@GetMapping("/empresa")
-	public ResponseEntity<List<Empresa>> listar(){		
+	public ResponseEntity<List<Empresa>> listar() {
 		return new ResponseEntity<>(empresaService.listar(), HttpStatus.OK);
-				
 	}
-	
-	@GetMapping("/empresa/buscarPorNomeCnpj")
-	public ResponseEntity<?> filtrarPorCnpjENome(@RequestParam("cnpj") String cnpj, @RequestParam("nome") String nome){		
-		return new ResponseEntity<>(empresaService.filtrarPorCnpjENome(cnpj, nome), HttpStatus.OK);
-				
-	}
-	
-	@DeleteMapping("/empresa/{id}")
-	public ResponseEntity<?> remover(@PathVariable Long id){
-		empresaService.remover(id);
+
+	@DeleteMapping("/empresa/{Id}")
+	public ResponseEntity<?> deletar(@PathVariable("Id") Long Id) {
+		empresaService.delete(Id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
 }

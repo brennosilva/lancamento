@@ -10,11 +10,15 @@ import br.net.smi.lancamento.repository.CategoriaRepository;
 
 @Service
 public class CategoriaService {
-	
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
-	public Categoria novo(Categoria categoria) {
+	public Categoria cadastrar(Categoria categoria) {
+		return categoriaRepository.save(categoria);
+	}
+
+	public Categoria atualizar(Categoria categoria) {
 		return categoriaRepository.save(categoria);
 	}
 
@@ -22,16 +26,12 @@ public class CategoriaService {
 		return categoriaRepository.findAll();
 	}
 
-	public Categoria listarPorId(Long id) {
-		return categoriaRepository.findById(id).get();
-	}
-
-	public void remover(Long id) {
+	public void delete(Long id) {
 		categoriaRepository.deleteById(id);
 	}
 
-	public Categoria atualizar(Categoria categoria) {
-		return categoriaRepository.save(categoria);
+	public Categoria buscarPorId(Long idCategoria) {		
+		return categoriaRepository.findById(idCategoria).get();
 	}
 
 }
